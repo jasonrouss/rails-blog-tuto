@@ -13,7 +13,10 @@
      </div> 
 
 <% end %>
+<%if @pagy.count >  @pagy.items %>
 <div class="my-16 mx-4 flex justify-center" >
 <%==  pagy_nav(@pagy)%>
 </div>
+<% end %>
+
 <%# blog_post_path(blog_post.id ) or  blog_post %>
