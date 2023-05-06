@@ -8,12 +8,12 @@
     </div>
   <% end %>
 
-  <div>
-   <%= form.label :title %>
+  <div class="my-8 grid grid-columns-1">
+   <%= form.label :title , class: "text-[18px] font-bold my-1" %>
    <%= form.text_field :title %>
   </div>
-  <div>
-    <%= form.label :cover_image %>
+  <div class="my-8 grid grid-columns-1">
+    <%= form.label :cover_image , class: "text-[18px] font-bold my-1"  %>
     <% if blog_post.cover_image.present? %>
       <div id="<%= dom_id(blog_post, :cover_image) %>">
        <%= image_tag @blog_post.cover_image, class: "w-1/3" if @blog_post.cover_image.present? %>
@@ -22,15 +22,17 @@
      <% end %>
     <%= form.file_field :cover_image %>
   </div>
-  <div>
-   <%= form.label :content %>
+  <div class="my-8">
+   <%= form.label :content, class: "text-[18px] font-bold my-1" %>
    <%= form.rich_text_area :content %>
   </div>
-  <div>
-  <%= form.label :published_at%>
+  <div class="my-8 grid grid-columns-1" >
+  <%= form.label :published_at , class: "text-[18px] font-bold my-1" %>
   <%= form.datetime_select :published_at%>
 
   </div>
 
-  <%= form.button %>
+<div class="border-2 bg-blue-100 border-blue-600 text-blue-600 hover:bg-blue-200 hover:border-blue-900 hover:text-blue-900 px-2 py-4 w-[120px] font-bold text-[19px] rounded ">
+  <%= form.button  %>
+</div>
 <% end %>
