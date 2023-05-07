@@ -5,6 +5,8 @@
 
         <h2> <%= link_to blog_post.title, blog_post_path(blog_post.id )%> </h2> 
         <%= blog_post.content %>
+        <p class="text-gray-500 text-sm mb-2 font-bold">  <%= blog_post.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+
      </div>
        <% if blog_post.draft? %>
        <div class="p-2 rounded bg-gray-100 text-gray-900 mx-8 my-4"> Draft </div>
