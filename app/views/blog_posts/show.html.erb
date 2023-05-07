@@ -5,6 +5,7 @@
 <%= image_tag @blog_post.cover_image if @blog_post.cover_image.present? %>
 <h1><%= @blog_post.title  %></h1> 
 <%= @blog_post.content %>
+<p class="text-gray-500 text-sm mb-2 font-bold">  <%= @blog_post.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
 
 </div>
 
