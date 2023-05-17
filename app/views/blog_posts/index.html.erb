@@ -1,39 +1,53 @@
 <div>
-<div class="flex justify-center">
-<h1 class="mx-8 my-8"> Jason's Blog </h1>
-</div>
+  <div class="flex justify-center">
+    <h1 class="mx-8 my-8">Jason's Blog</h1>
+  </div>
 
- <div class="flex justify-center">
-  <%= form_tag(search_path, method: :get, class: "flex mx-8 my-6") do %>
-    <%= text_field_tag :query, params[:query], placeholder: "Search...", class: " w-[180px] border   rounded-l px-2 py-1" %>
-    <%= submit_tag "🔎", class: " cursor-pointer  w-[35px] border-y border-r border-slate-800 hover:border-slate-900  bg-slate-300  hover:bg-slate-400 text-white font-bold  rounded-r" %>
-    
-  <% end %>
- </div>
+  <div class="flex justify-center">
+    <%= form_tag(search_path, method: :get, class: "flex mx-8 my-6") do %>
+      <%= text_field_tag :query, params[:query], placeholder: "Search...", class: "w-[180px] border rounded-l px-2 py-1" %>
+      <%= submit_tag "🔎", class: "cursor-pointer w-[35px] border-y border-r border-slate-800 hover:border-slate-900 bg-slate-300 hover:bg-slate-400 text-white font-bold rounded-r" %>
+    <% end %>
+  </div>
 </div>
-
 
 <% @blog_posts.each do |blog_post| %>
-     <div class="mx-8 blog"> 
-   <%= image_tag blog_post.cover_image if blog_post.cover_image.present? %>
+  <div class="mx-8 blog">
+    <%= image_tag blog_post.cover_image if blog_post.cover_image.present? %>
+    <h2><%= link_to blog_post.title, blog_post_path(blog_post.id) %></h2>
+    <%= blog_post.content %>
+<div>
+<div class="flex my-4 ">
+  <div class="flex px-2 py-1 cursor-pointer w-[70px] border border-slate-800 hover:border-slate-900 bg-slate-400 hover:bg-slate-500 text-center font-bold rounded mr-8">
+    <%= form_with url: like_blog_post_path(blog_post), method: :post, remote: true do |f| %>
+      <%= f.button type: :submit, class: 'like-button' do %>
+        👍 (<span class="like-count"><%= blog_post.likes_count %></span>)
+      <% end %>
+    <% end %>
+  </div>
 
-        <h2> <%= link_to blog_post.title, blog_post_path(blog_post.id )%> </h2> 
-        <%= blog_post.content %>
-        <p class="text-gray-500 text-sm mb-2 font-bold">  <%= blog_post.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+  <div class="flex px-2 py-1 cursor-pointer w-[70px] border border-slate-800 hover:border-slate-900 bg-slate-400 hover:bg-slate-500 text-center font-bold rounded " >
 
-     </div>
-       <% if blog_post.draft? %>
-       <div class="p-2 rounded bg-gray-100 text-gray-900 mx-8 my-4"> Draft </div>
-     <% elsif blog_post.scheduled? %>
-       <div class="p-2 rounded bg-blue-200  text-blue-900 mx-8 my-4"> Scheduled </div>
-     <%end %>
-     </div> 
+    <%= form_with url: dislike_blog_post_path(blog_post), method: :post, remote: true do |f| %>
+      <%= f.button type: :submit, class: 'dislike-button' do %>
+        👎 (<span class="dislike-count"><%= blog_post.dislikes_count %></span>)
+      <% end %>
+    <% end %>
+    </div>
 
-<% end %>
-<%if @pagy.count >  @pagy.items %>
-<div class="my-16 mx-20 flex justify-center" >
-<%==  pagy_nav(@pagy)%>
+  </div>
 </div>
+    <p class="text-gray-500 text-sm mb-2 font-bold"><%= blog_post.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+    <% if blog_post.draft? %>
+      <div class="p-2 rounded bg-gray-100 text-gray-900 mx-8 my-4">Draft</div>
+    <% elsif blog_post.scheduled? %>
+      <div class="p-2 rounded bg-blue-200 text-blue-900 mx-8 my-4">Scheduled</div>
+    <% end %>
+  </div>
 <% end %>
 
-<%# blog_post_path(blog_post.id ) or  blog_post %>
+<% if @pagy.count > @pagy.items %>
+  <div class="my-16 mx-20 flex justify-center">
+    <%== pagy_nav(@pagy) %>
+  </div>
+<% end %>

@@ -1,17 +1,36 @@
-
 <div class="mx-4">
-
-
-<div  class= "mb-4">
-<%= link_to "Edit",   edit_blog_post_path(@blog_post)if user_signed_in? %>
-
-</div>
+  <div class="mb-4">
+    <%= link_to "Edit", edit_blog_post_path(@blog_post) if user_signed_in? %>
+  </div>
 
   <%= image_tag @blog_post.cover_image if @blog_post.cover_image.present? %>
-  <h1><%= @blog_post.title  %></h1> 
+  <h1><%= @blog_post.title %></h1>
   <%= @blog_post.content %>
-  <p class="text-gray-500 text-sm mb-2 font-bold">
+
+
+<div class="flex my-4 ">
+  <div class="flex px-2 py-1 cursor-pointer w-[70px] border border-slate-800 hover:border-slate-900 bg-slate-400 hover:bg-slate-500 text-center font-bold rounded mr-8">
+    <%= form_with url: like_blog_post_path(@blog_post), method: :post, remote: true do |f| %>
+      <%= f.button type: :submit, class: 'like-button' do %>
+        👍 (<span class="like-count"><%= @blog_post.likes_count %></span>)
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="flex px-2 py-1 cursor-pointer w-[70px] border border-slate-800 hover:border-slate-900 bg-slate-400 hover:bg-slate-500 text-center font-bold rounded " >
+
+    <%= form_with url: dislike_blog_post_path(@blog_post), method: :post, remote: true do |f| %>
+      <%= f.button type: :submit, class: 'dislike-button' do %>
+        👎 (<span class="dislike-count"><%= @blog_post.dislikes_count %></span>)
+      <% end %>
+    <% end %>
+    </div>
+      <div class="py-1 ml-10"> 👍/👎 <%= number_with_precision(@blog_post.likes_ratio, precision: 2)  %>%</div>
+
+  </div>
+</div>
+ 
+ 
+  <p class="text-gray-500 text-sm mb-2 mx-4 font-bold">
     <%= @blog_post.created_at.strftime("%B %d, %Y at %I:%M %p") %>
   </p>
-</div>
-

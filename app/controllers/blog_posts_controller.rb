@@ -1,6 +1,6 @@
 class BlogPostsController < ApplicationController
-    before_action :authenticate_user! , except: [:index, :show ,:search ]
-    before_action :set_blog_post, only: [:show, :edit,:update,:destroy] 
+    before_action :authenticate_user! , except: [:index, :show ,:search,:like, :dislike ]
+    before_action :set_blog_post, only: [:show, :edit, :update, :destroy, ]
     # except: [:index, :new, :create] 
     def index
         @blog_posts = user_signed_in? ? BlogPost.sorted : BlogPost.published.sorted
@@ -11,8 +11,20 @@ class BlogPostsController < ApplicationController
         # retry
     end
     def show
+        
     end
-   
+    def like
+        @blog_post = BlogPost.find(params[:id])
+        @blog_post.increment!(:likes_count)
+        redirect_to @blog_post
+      end
+      
+      def dislike
+        @blog_post = BlogPost.find(params[:id])
+        @blog_post.increment!(:dislikes_count)
+        redirect_to @blog_post
+      end
+      
     def new
         @blog_post = BlogPost.new
        
