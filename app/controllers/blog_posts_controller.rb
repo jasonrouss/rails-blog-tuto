@@ -1,6 +1,6 @@
 class BlogPostsController < ApplicationController
-    before_action :authenticate_user! , except: [:index, :show]
-    before_action :set_blog_post, only: [:show,:edit,:update,:destroy] 
+    before_action :authenticate_user! , except: [:index, :show ,:search ]
+    before_action :set_blog_post, only: [:show, :edit,:update,:destroy] 
     # except: [:index, :new, :create] 
     def index
         @blog_posts = user_signed_in? ? BlogPost.sorted : BlogPost.published.sorted
@@ -12,6 +12,7 @@ class BlogPostsController < ApplicationController
     end
     def show
     end
+   
     def new
         @blog_post = BlogPost.new
        
@@ -41,6 +42,11 @@ class BlogPostsController < ApplicationController
         @blog_post.destroy
         redirect_to root_path
     end  
+    def search
+        @query = params[:query]
+        @posts = BlogPost.where("LOWER(title) LIKE ?", "%#{params[:query].downcase}%")
+    end
+      
     private
     def blog_post_params
         params.require(:blog_post).permit(:title, :content,:cover_image , :published_at)

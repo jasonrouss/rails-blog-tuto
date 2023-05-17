@@ -19,6 +19,9 @@ class BlogPost < ApplicationRecord
     def scheduled?
         published_at? && published_at > Time.current
     end
+    def self.search(query)
+        where("title LIKE ?", "%#{query}%")
+    end
     
 end
 

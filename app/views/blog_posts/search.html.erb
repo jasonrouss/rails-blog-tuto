@@ -1,0 +1,16 @@
+<h1>Search Results</h1>
+
+<h4>Showing results for "<%= @query %>"</h4>
+
+<% if @posts.any? %>
+  <ul class="my-4">
+    <% @posts.each do |post| %>
+      <li class="my-2"><%= link_to post.title, blog_post_path(post) %></li>
+    <% end %>
+
+  </ul>
+  <h4><%= pluralize(@posts.count, 'item') %> found</h4>
+
+<% else %>
+  <p>No results found.</p>
+<% end %>
